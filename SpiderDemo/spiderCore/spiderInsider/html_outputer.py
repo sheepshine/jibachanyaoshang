@@ -1,3 +1,4 @@
+# coding:utf8
 from .. import models
 
 class HtmlOutputer(object):
@@ -7,7 +8,6 @@ class HtmlOutputer(object):
     def collect_data(self, data):
         if data is None:
             return
-        print(data)
         #views.add_article(data)
 
         models.Article.objects.create(title=data['title'], content=data['summary'], url=data['url'])

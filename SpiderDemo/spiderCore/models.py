@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=32, default='title')
+    title = models.TextField(default='title')
     content = models.TextField(null=True)
     url = models.TextField(null=True)
 
