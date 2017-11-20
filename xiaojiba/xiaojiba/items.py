@@ -11,4 +11,4 @@ import scrapy
 class XiaojibaItem(scrapy.Item):
     title = scrapy.Field()
     link = scrapy.Field()
-    desc = scrapy.Field()
+    content = scrapy.Field()
