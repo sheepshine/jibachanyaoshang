@@ -9,13 +9,17 @@ class DmozSpider(scrapy.Spider):
     name = 'dmoz'
 
     start_urls = [
-        'https://baike.baidu.com/item/%E6%98%8E%E6%97%A5%E8%8A%B1%E7%BB%AE%E7%BD%97'
+        'https://baike.baidu.com/item/scrapy/7914913'
     ]
 
     def parse(self, response):
         item = XiaojibaItem()
-        item['title'] = pq(response.body).find('dd.lemmaWgt-lemmaTitle-title h1').text()
+        doc = pq(response.body)
+        item['title'] = doc('dd.lemmaWgt-lemmaTitle-title h1').text()
         item['link'] = response.url
-        item['desc'] = pq(response.body).find('.lemma-summary').text()
+        item['desc'] = doc('.lemma-summary').text()
         yield item
-        
+
+        for urls in doc('.body-wrapper a[href^="/item/"]').items():
+            url = 'https://baike.baidu.com' + urls.attr('href')
+            yield scrapy.Request(url, callback=self.parse)
