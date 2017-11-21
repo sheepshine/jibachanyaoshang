@@ -9,20 +9,18 @@ class WeiBoSpider(scrapy.Spider):
     name = 'weibo'
 
     start_urls = [
-        'https://weibo.com/?category=0'
+        'https://weibo.com/a/aj/transform/loadingmoreunlogin?ajwvr=6&category=0&page=0&lefnav=0&__rnd=1511229965587'
     ]
 
     def parse(self, response):
         item = XiaojibaItem()
         doc = pq(response.body)
 
-        print doc
-
-        for urls in doc('#PCD_pictext_i_v5 ul div[action-type="feed_list_item"]').items():
+        for urls in doc('div[action-type="feed_list_item"]').items():
             print '------------------'
             print urls.attr('class')
             print '------------------'
-            # item['title'] = urls.text()
-            # item['link'] = response.url
-            # item['content'] = doc('.lemma-summary').text()
-            # yield item
+            item['title'] = urls.text()
+            item['link'] = response.url
+            item['content'] = doc('.lemma-summary').text()
+            yield item

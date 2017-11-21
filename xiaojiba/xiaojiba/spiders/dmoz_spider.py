@@ -12,6 +12,10 @@ class DmozSpider(scrapy.Spider):
         'https://baike.baidu.com/item/%E6%98%8E%E6%97%A5%E8%8A%B1%E7%BB%AE%E7%BD%97'
     ]
 
+    custom_settings = {
+        'DOWNLOAD_DELAY': 3
+    }
+
     def parse(self, response):
         item = XiaojibaItem()
         doc = pq(response.body)

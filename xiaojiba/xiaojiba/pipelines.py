@@ -7,6 +7,7 @@
 from twisted.enterprise import adbapi
 import MySQLdb
 import MySQLdb.cursors
+import copy
 import codecs
 import json
 from logging import log
@@ -37,7 +38,8 @@ class WebcrawlerScrapyPipeline(object):
 
     # pipeline默认调用
     def process_item(self, item, spider):
-        query = self.dbpool.runInteraction(self._conditional_insert, item)  # 调用插入的方法
+        asynItem = copy.deepcopy(item)
+        query = self.dbpool.runInteraction(self._conditional_insert, asynItem)  # 调用插入的方法
         query.addErrback(self._handle_error, item, spider)  # 调用异常处理方法
         return item
 
